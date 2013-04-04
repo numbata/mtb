@@ -22,45 +22,69 @@ https://dl.dropbox.com/u/31852263/sdcss/profilePage.jpg (Профиль)
 
 Именование классов:  
 1) Безусловно, имя класса у Контекста или у Элемента должно обозначать то, что они отображают.  
-```.photos {}
-.menu {}```  
+```css
+.photos {}
+.menu {}
+```
 2) Названия любых блоков могут содержать нижнее подчёркивание для обозначения вложенности блоков.  
 Кнопки в меню можно обозначить как  
-```.menu_button {}```  
+```css
+.menu_button {}
+```
 3) Если в имени Контекста или Элемента нужно сделать какое-то уточнение, то используется camelCase.  
 На макете Профиля можно уточнить, что Контекст, содержащий "достижения" является профильным.  
-```.profileAchievs {}```  
+```css
+.profileAchievs {}
+```
 Так же можно обозначить кнопки, которые принадлежат только менюшке, таким образом эти кнопки станут самостоятельным элементом,  
-```.menuButton {}```  
+```css
+.menuButton {}
+```
 4) Разновидности обозначаются через дефис.  
 Для кнопки, ведущей на профиль у нас будет вот такой класс:  
-```.menu_button-profile {}```  
+```css
+.menu_button-profile {}
+```
 или такой (в зависимости от того, что вы выберете)  
-```.menuButton-profile {}```  
+```css
+.menuButton-profile {}
+```
 5) Элементы, имеющие Разновидности описываются через селекторы атрибутов.  
 То есть у кнопок в меню может быть одно из следующих описаний (опять же смотря что вы выбрали между пунктов 2 и 3)  
-```[class|="menu_button"], .menu_button {}```  
+```css
+[class|="menu_button"], .menu_button {}
+```
 или  
-```[class|="menuButton"], .menuButton {}```  
+```css
+[class|="menuButton"], .menuButton {}
+```
 По этим правилам будут искаться элементы, у которых класс имеет в начале имя Элемента ("menu_button" или "menuButton"). Но проблема в том, что, если у тэга в классе будет присутствовать пробел после этого (например, добавим статус), то правило не сработает. Для этого мы добавляем просто описание класса без разновидности.  
 Подробнее про селекторы атрибутов можно прочитать тут:  
 http://htmlbook.ru/samcss/selektory-atributov  
 6) Все статусы начинаются с нижнего подчёркивания и описываются только в паре с другими Элементами или Контекстами.  
-```[class|="menu_button"]._cur, .menu_button._cur {}```  
+```css
+[class|="menu_button"]._cur, .menu_button._cur {}
+```
 Вот так описывать нельзя  
-```._cur {}```  
+```css
+._cur {}
+```
 
 Структура и хранение файлов:
 1) В корневой css-папке (допустим, "ourProject/www/css/") хранятся: общие стили (например, reset.css) и описание Контекстов, которые не являются Элементами.  
 В файле Контекстов описываются классы, которые описывают сам Контекст, а также вложенные в него блоки (те, что описываются через нижнее подчёркивание).  
-```ourProject/www/css/reset.css  
-ourProject/www/css/common.css  
-ourProject/www/css/mainPage.css  
-ourProject/www/css/commonPage.css```  
+```css
+ourProject/www/css/reset.css
+ourProject/www/css/common.css
+ourProject/www/css/mainPage.css
+ourProject/www/css/commonPage.css
+```
 Здесь "commonPage.css" будет описывать рутинную внутреннюю страницу (к которой так же относится и страница с Профилем)
 2) Элементы хранятся в папке "elements" ("ourProject/www/css/elements/").  
 Менюшка у нас хоть и является Контекстом для кнопок в меню, но тем не менее сама по себе менюшка является и Элементом, поэтому css-файл, описывающий её классы и классы вложенных блоков будет храниться по следующему пути:  
-```ourProject/www/css/elements/menu.css```  
+```css
+ourProject/www/css/elements/menu.css
+```
 В нём же, кстати, будут описаны и Элементы "menu_button" и их Разновидности, так как хоть они и являются Элементами, но всё же они остаются вложенными блоками  
 3) Если Элемент1 содержит другие Элементы, которые используются только в Элементе1 (то есть, по сути, Элемент1 стал Контекстом для Элемента2, Элемента3 итд), то создаётся подпапка с именем Элемента1, в которой хранятся файлы с описанием Элементов2 и Элементов3.  
 Предположим, что для описания кнопок мы выбрали обозначение через camelCase, то структура файлов у нас будет примерно такая:  
@@ -70,49 +94,46 @@ ourProject/www/css/elements/menu.css```
 4) Разновидности Элементов описываются в файле Элемента.  
 5) Изменения Элементов через Контекст описываются в файле с Контекстом.  
 Допустим у нас есть файл с примерно таким содержимым  
-```ourProject/www/css/elements/menu.css  
-.menu {  
-    background-color: #444444;  
-}  
+```css
+ourProject/www/css/elements/menu.css
+
+.menu { background-color: #444444; }
 /* этот блок будет содержать сами кнопки */
 .menu_content {}
-[class|="menu_button"], .menu_button {  
-    width: 120px;  
-    height: 34px;  
-}```  
-Что описывает фон для меню и размеры кнопки в ней. Тогда в Контексте Главной будет вот такая запись:  
-```ourProject/www/css/mainPage.css  
-.mainPage .menu {  
-    height: 140px;  
-}  
-.mainPage .menu_content {  
-    width: 900px;  
-    margin: 0 auto;  
+[class|="menu_button"], .menu_button {
+    width: 120px;
+    height: 34px;
 }
-```  
+```
+Что описывает фон для меню и размеры кнопки в ней. Тогда в Контексте Главной будет вот такая запись:  
+```css
+ourProject/www/css/mainPage.css
+
+.mainPage .menu { height: 140px; }
+.mainPage .menu_content {
+    width: 900px;
+    margin: 0 auto;
+}
+```
 Таким образом у нас на главной будет меню сверху и по центру. В Контексте Профиля (внутренней страницы) будут вот такие описания:  
-```ourProject/www/css/commonPage.css  
-.commonPage .menu {  
-    float: left;  
-    width: 400px;  
-}  
-.commonPage .menu_content {  
-    margin-left: 200px;  
-}  
-.commonPage [class|="menu_button"], .commonPage .menu_button {  
-    float: left;  
-}```  
+```css
+ourProject/www/css/commonPage.css
+
+.commonPage .menu {
+    float: left;
+    width: 400px;
+}
+.commonPage .menu_content { margin-left: 200px; }
+.commonPage [class|="menu_button"], .commonPage .menu_button { float: left; }
+```
 Теперь на главной у нас кнопки идут друг за другом.
 
 Разумеется, у нас это всё сработает, если содержимое страничек будет обёрнуто в блок с классом "commonPage" или "mainPage".  
 Но что делать, если оборачивать не хочется? Тогда вы просто можете изменить Элементы не через Контекст, а через Разновидность. Вот как будет это выглядеть:  
-```ourProject/www/css/elements/menu.css  
-[class|="menu"], .menu {  
-    background-color: #444444;  
-}  
-.menu-top {  
-    height: 140px;  
-}  
+```css
+ourProject/www/css/elements/menu.css
+[class|="menu"], .menu { background-color: #444444; }  
+.menu-top { height: 140px; }  
 .menu-left {  
     float: left;  
     width: 400px;  
@@ -124,23 +145,18 @@ ourProject/www/css/elements/menu.css```
     width: 900px;  
     margin: 0 auto;  
 }  
-.menu-left .menu_content {  
-    margin-left: 200px;  
-} 
+.menu-left .menu_content { margin-left: 200px; } 
 
 [class|="menu_button"], .menu_button {  
     width: 120px;  
     height: 34px;  
 }
  
-.menu-top [class|="menu_button"], .menu-top .menu_button {  
-    float: left;  
-}
-```  
+.menu-top [class|="menu_button"], .menu-top .menu_button { float: left; }
+```
 Таким образом мы всё описали в одном файле, так как Контекст "Меню" мы меняли не через родительский Контекст, а через Разновидность, которая должна описываться в том же файле. Так как Элементы "Кнопка" у нас меняли через Контекст "Меню", то их изменения мы так же описываем в файле с Контекстом. Если же вы решил описывать кнопки как самостоятельные Элементы, то в данном случае практически ничего не поменяется, в файле не будет описания Элементов с кнопками, но изменение через Контекст всё равно останется, хоть и будет иметь теперь другой вид:  
-```.menu-top [class|="menuButton"], .menu-top .menuButton {  
-    float: left;  
-}
+```css
+.menu-top [class|="menuButton"], .menu-top .menuButton { float: left; }
 ```  
 Причём если вы заметили, то поиск нужного нам файла по имени класса, остаётся всё так же простым. В этом и есть одна из фишек MtB: какую бы задачу не выполнял блок, всегда и однозначно можно найти файл, в котором описываются его стили.
 
